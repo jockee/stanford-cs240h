@@ -3,8 +3,6 @@ import Data.List
 import Data.Char
 import System.IO
 
-inpt = "Dogs DOGS Child ChIlD Hello"
-
 main = do
   input <- getLine
   putStrLn (histogram input)
@@ -18,3 +16,9 @@ histogram = intercalate "\n" . toBar . wordsWithCount
         highestCount xs = fst $ maximum xs
         longestWord xs = 10
         maxLength = 80
+
+-- remaining requirements:
+-- total of 80 lines
+-- longest word
+-- optional input as command line argument
+-- a word with a bar length of 0 should not be printed
