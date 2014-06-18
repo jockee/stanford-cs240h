@@ -1,7 +1,6 @@
 import Data.Char
 import Control.Monad
 import Data.List
-import Data.Char
 import System.IO
 import System.Environment
 
@@ -17,7 +16,7 @@ main = do
   where hasArgs args = length args > 0
 
 histogram :: String -> String
-histogram = intercalate "\n" . toBar . wordsWithCount . wordsWithoutInterpunctuation
+histogram = intercalate "\n" . toBar . filterOutLittleOccuring . wordsWithCount . wordsWithoutInterpunctuation
   where wordsWithoutInterpunctuation x = filter (not . isPunctuation) x
         wordsWithCount x = reverse . sort . map (\x -> (genericLength x, head x)) $ sortedWords x
         sortedWords x = group . sort . words $ map toLower x
@@ -25,8 +24,6 @@ histogram = intercalate "\n" . toBar . wordsWithCount . wordsWithoutInterpunctua
         barLength x xs = round $ fst x * maxLength xs / highestCount xs
         wordWithPadding x xs = snd x ++ genericReplicate (longestWord xs - genericLength (snd x) + minimumPadding) ' '
         longestWord xs = maximum $ map (\x -> genericLength (snd x)) xs
+        filterOutLittleOccuring xs = filter (\x -> (barLength x xs) > 0) xs
         highestCount xs = fst $ maximum xs
         maxLength xs = fromIntegral (screenWidth - minimumPadding - longestWord xs)
-
--- remaining requirements:
--- a word with a bar length of 0 should not be printed
