@@ -7,13 +7,25 @@ import System.Environment
 minimumPadding = 1
 screenWidth = 80
 
+
 main = do
   args <- getArgs
-  input <- if hasArgs args
-              then readFile $ unwords args
-              else getLine
-  putStrLn $ histogram input
+  if hasArgs args
+    then fromArgs args
+    else fromCommandLine
   where hasArgs args = not $ null args
+
+fromCommandLine = do
+  input <- getLine
+  putStrLn (type input)
+  printHistogram input
+
+fromArgs args = do
+  input <- head $ map readFile args
+  --input <- readFile $ unwords args
+  printHistogram input
+
+printHistogram = putStrLn . histogram
 
 histogram :: String -> String
 histogram = intercalate "\n" . toBar . filterOutLittleOccuring . wordsWithCount . wordsWithoutInterpunctuation
