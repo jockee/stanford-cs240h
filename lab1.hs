@@ -27,3 +27,6 @@ histogram = intercalate "\n" . toBar . filterOutLittleOccuring . wordsWithCount 
         filterOutLittleOccuring xs = filter (\x -> (barLength x xs) > 0) xs
         highestCount xs = fst $ maximum xs
         maxLength xs = fromIntegral (screenWidth - minimumPadding - longestWord xs)
+
+-- remaining requirements:
+-- read multiple files
