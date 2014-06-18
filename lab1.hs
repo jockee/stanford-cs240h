@@ -3,13 +3,18 @@ import Control.Monad
 import Data.List
 import Data.Char
 import System.IO
+import System.Environment
 
 minimumPadding = 1
 screenWidth = 80
 
 main = do
-  input <- getLine
+  args <- getArgs
+  input <- if hasArgs args
+              then readFile $ unwords args
+              else getLine
   putStrLn (histogram input)
+  where hasArgs args = length args > 0
 
 histogram :: String -> String
 histogram = intercalate "\n" . toBar . wordsWithCount . wordsWithoutInterpunctuation
@@ -24,5 +29,4 @@ histogram = intercalate "\n" . toBar . wordsWithCount . wordsWithoutInterpunctua
         maxLength xs = fromIntegral (screenWidth - minimumPadding - longestWord xs)
 
 -- remaining requirements:
--- optional input as command line argument
 -- a word with a bar length of 0 should not be printed
