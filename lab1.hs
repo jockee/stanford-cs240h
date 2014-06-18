@@ -12,12 +12,12 @@ main = do
   input <- if hasArgs args
               then readFile $ unwords args
               else getLine
-  putStrLn (histogram input)
+  putStrLn $ histogram input
   where hasArgs args = not $ null args
 
 histogram :: String -> String
 histogram = intercalate "\n" . toBar . filterOutLittleOccuring . wordsWithCount . wordsWithoutInterpunctuation
-  where wordsWithoutInterpunctuation = filter (not . isPunctuation)
+  where wordsWithoutInterpunctuation = filter $ not . isPunctuation
         wordsWithCount x = reverse . sort . map (\x -> (genericLength x, head x)) $ sortedWords x
         sortedWords x = group . sort . words $ map toLower x
         toBar xs = map (\x -> wordWithPadding x xs ++ genericReplicate (barLength x xs) '#') xs
@@ -26,7 +26,7 @@ histogram = intercalate "\n" . toBar . filterOutLittleOccuring . wordsWithCount 
         longestWord xs = maximum $ map (genericLength . snd) xs
         filterOutLittleOccuring xs = filter (\x -> barLength x xs > 0) xs
         highestCount xs = fst $ maximum xs
-        maxLength xs = fromIntegral (screenWidth - minimumPadding - longestWord xs)
+        maxLength xs = fromIntegral $ screenWidth - minimumPadding - longestWord xs
 
 -- remaining requirements:
 -- read multiple files
