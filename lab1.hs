@@ -24,7 +24,7 @@ histogram = toBars . filterOutLittleOccuring . wordsWithCount . wordsWithoutInte
   where wordsWithoutInterpunctuation = filter $ not . isPunctuation
 
 toBars :: RealFrac a => [(a, String)] -> String
-toBars xs = intercalate "\n" $ fmap (\x -> wordWithPadding x xs ++ genericReplicate (barLength x xs) '#') xs
+toBars xs = unlines $ fmap (\x -> wordWithPadding x xs ++ genericReplicate (barLength x xs) '#') xs
 
 filterOutLittleOccuring :: (Ord b, RealFrac a) => [(a, [b])] -> [(a, [b])]
 filterOutLittleOccuring xs = filter (\x -> barLength x xs > 0) xs
